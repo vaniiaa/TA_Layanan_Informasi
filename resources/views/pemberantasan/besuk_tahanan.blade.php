@@ -82,9 +82,9 @@
                             <td>{{ $item->tahanan->nomor_tahanan ?? '-' }}</td>
                             <td>{{ $item->nama_tahanan }}</td>
                             <td>{{ $item->nama_pembesuk }}</td>
-                            <td>{{ $item->tanggal_kedatangan }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->tanggal_kedatangan)->format('d/m/Y') }}</td>
                             <td>{{ $item->hari_kunjungan }}</td>
-                            <td>{{ $item->jam_masuk }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->jam_masuk)->format('H:i') }}</td>
                             <td>{{ $item->no_hp }}</td>
                             <td>
                                 <button onclick="openModal('modalDetail{{ $item->id }}')"
@@ -206,13 +206,13 @@
                                                 <input class="flex-1 border rounded-lg p-2 bg-gray-100"
                                                     value="{{ basename($item->foto_identitas) }}" readonly>
 
-                                                <a href="{{ route('admin.besuk_tahanan.viewSurat', $item->id) }}"
+                                                <a href="{{ route('pemberantasan.besuk_tahanan.viewSurat', $item->id) }}"
                                                     target="_blank"
                                                     class="bg-sky-500 hover:bg-sky-600 text-white px-3 py-2 rounded-md">
                                                     <i class="fa-solid fa-eye"></i>
                                                 </a>
 
-                                                <a href="{{ route('admin.besuk_tahanan.downloadSurat', $item->id) }}"
+                                                <a href="{{ route('pemberantasan.besuk_tahanan.downloadSurat', $item->id) }}"
                                                     class="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-md">
                                                     <i class="fa-solid fa-download"></i>
                                                 </a>

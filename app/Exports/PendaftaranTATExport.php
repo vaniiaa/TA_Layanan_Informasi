@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
@@ -17,7 +18,8 @@ class PendaftaranTATExport implements
     FromCollection,
     WithHeadings,
     WithStyles,
-    WithColumnWidths
+    WithColumnWidths,
+    WithMapping
 {
     protected $bulan;
     protected $tahun;
@@ -33,8 +35,6 @@ class PendaftaranTATExport implements
      */
     public function collection()
     {
-        $no = 1;
-
         return PendaftaranTAT::when($this->bulan, function ($q) {
                 $q->whereMonth('created_at', (int) $this->bulan);
             })
@@ -42,29 +42,51 @@ class PendaftaranTATExport implements
                 $q->whereYear('created_at', (int) $this->tahun);
             })
             ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function ($item) use (&$no) {
-                return [
-                    $no++,
-                    $item->nik,
-                    $item->nama_tersangka,
-                    $item->nama_lengkap,
-                    $item->alamat,
-                    $item->instansi,
-                    $item->nama_penyidik,
-                    $item->wa_penyidik,
-                    Carbon::parse($item->tanggal_surat_pengajuan)->format('d-m-Y'),
-                    Carbon::parse($item->tanggal_lp)->format('d-m-Y'),
-                    Carbon::parse($item->tanggal_penangkapan)->format('d-m-Y'),
-                    is_array($item->barang_bukti)
-                        ? implode(', ', $item->barang_bukti)
-                        : '-',
-                    $item->berat_barang_bukti ?? '-',
-                    is_array($item->hasil_urine)
-                        ? implode(', ', $item->hasil_urine)
-                        : '-',
-                ];
-            });
+            ->get();
+    }
+
+    /**
+     * ================= MAPPING DATA =================
+     */
+    public function map($item): array
+    {
+        static $no = 1;
+
+        return [
+            $no++,
+
+            // NIK
+            "'" . $item->nik,
+
+            $item->nama_tersangka,
+            $item->nama_lengkap,
+            $item->alamat,
+            $item->instansi,
+            $item->nama_penyidik,
+            $item->wa_penyidik,
+
+            $item->tanggal_surat_pengajuan
+                ? Carbon::parse($item->tanggal_surat_pengajuan)->format('d-m-Y')
+                : '-',
+
+            $item->tanggal_lp
+                ? Carbon::parse($item->tanggal_lp)->format('d-m-Y')
+                : '-',
+
+            $item->tanggal_penangkapan
+                ? Carbon::parse($item->tanggal_penangkapan)->format('d-m-Y')
+                : '-',
+
+            is_array($item->barang_bukti)
+                ? implode(', ', $item->barang_bukti)
+                : '-',
+
+            $item->berat_barang_bukti ?? '-',
+
+            is_array($item->hasil_urine)
+                ? implode(', ', $item->hasil_urine)
+                : '-',
+        ];
     }
 
     /**
@@ -127,13 +149,21 @@ class PendaftaranTATExport implements
         // Tambah baris judul
         $sheet->insertNewRowBefore(1, 3);
 
-        // Merge sesuai jumlah kolom (A:N)
+        // Merge sesuai jumlah kolom
         $sheet->mergeCells('A1:N1');
         $sheet->mergeCells('A2:N2');
 
-        $sheet->setCellValue('A1', 'LAPORAN PENDAFTARAN ASSESSMENT TERPADU (TAT)');
-        $sheet->setCellValue('A2', "BULAN " . strtoupper($bulan) . " TAHUN {$tahun}");
+        $sheet->setCellValue(
+            'A1',
+            'LAPORAN PENDAFTARAN ASSESSMENT TERPADU (TAT)'
+        );
 
+        $sheet->setCellValue(
+            'A2',
+            "BULAN " . strtoupper($bulan) . " TAHUN {$tahun}"
+        );
+
+        // Style judul
         $sheet->getStyle('A1:A2')->applyFromArray([
             'font' => [
                 'bold' => true,
@@ -173,6 +203,9 @@ class PendaftaranTATExport implements
             ],
         ]);
 
+        /**
+         * STYLE ISI TABEL
+         */
         $sheet->getStyle("A5:N{$highestRow}")->applyFromArray([
             'alignment' => [
                 'wrapText'   => true,
@@ -181,18 +214,22 @@ class PendaftaranTATExport implements
             ],
         ]);
 
+        // Kolom nomor center
         $sheet->getStyle("A5:A{$highestRow}")
             ->getAlignment()
             ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
+        // Kolom NIK center
         $sheet->getStyle("B5:B{$highestRow}")
             ->getAlignment()
             ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
+        // Auto tinggi baris
         for ($row = 5; $row <= $highestRow; $row++) {
             $sheet->getRowDimension($row)->setRowHeight(-1);
         }
 
+        // Border semua tabel
         $sheet->getStyle("A4:N{$highestRow}")->applyFromArray([
             'borders' => [
                 'allBorders' => [

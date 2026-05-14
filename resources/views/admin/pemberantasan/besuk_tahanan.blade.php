@@ -83,9 +83,9 @@
                             <td>{{ $item->tahanan->nomor_tahanan ?? '-' }}</td>
                             <td>{{ $item->nama_tahanan }}</td>
                             <td>{{ $item->nama_pembesuk }}</td>
-                            <td>{{ $item->tanggal_kedatangan }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->tanggal_kedatangan)->format('d/m/Y') }}</td>
                             <td>{{ $item->hari_kunjungan }}</td>
-                            <td>{{ $item->jam_masuk }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->jam_masuk)->format('H:i') }}</td>
                             <td>{{ $item->no_hp }}</td>
                             <td>
                                 <button onclick="openModal('modalDetail{{ $item->id }}')"

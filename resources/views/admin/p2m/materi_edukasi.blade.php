@@ -35,8 +35,8 @@
                         <th>No</th>
                         <th>Jenis</th>
                         <th>Judul</th>
-                        <th>Author</th>
                         <th>Deskripsi</th>
+                        <th>Authors</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -46,10 +46,10 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ ucfirst($item->jenis) }}</td>
                             <td>{{ $item->judul }}</td>
+                            <td>{{ Str::limit($item->deskripsi, 40) }}</td>
                             <td>
                                 {{ $item->user->name ?? '-' }}
                             </td>
-                            <td>{{ Str::limit($item->deskripsi, 40) }}</td>
                             <td class="flex gap-2">
                                 <button onclick='showDetail(@json($item))' class="btn btn-sm btn-info text-white">
                                     <i class="fa-solid fa-circle-info"></i>

@@ -65,10 +65,10 @@
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
-                        <th>Alamat Lengkap</th>
+                        <th>NPSN</th>
                         <th>Nama Sekolah</th>
-                        <th>PIC</th>
-                        <th>No HP / WA</th>
+                        <th>Alamat</th>
+                        <th>No Telp</th>
                         <th>Tanggal Kegiatan</th>
                         <th>Aksi</th>
                     </tr>
@@ -80,9 +80,9 @@
                             <td>{{ $loop->iteration + ($wisata->currentPage()-1)*$wisata->perPage() }}
                             </td>
                             <td>{{ $item->nama_lengkap }}</td>
-                            <td>{{ $item->alamat }}</td>
+                            <td>{{ $item->sekolah->npsn ?? '-' }}</td>
                             <td>{{ $item->sekolah->nama_sekolah ?? '-' }}</td>
-                            <td>{{ $item->penanggung_jawab }}</td>
+                            <td>{{ $item->sekolah->alamat ?? '-' }}</td>
                             <td>{{ $item->no_telp }}</td>
                             <td>{{ \Carbon\Carbon::parse($item->tanggal_kegiatan)->format('d-m-Y') }}
                             </td>
@@ -162,14 +162,14 @@
                                                 value="{{ basename($item->surat_permohonan) }}" readonly>
 
                                             {{-- Lihat File --}}
-                                            <a href="{{ route('admin.wisata.viewSurat', $item->id) }}"
+                                            <a href="{{ route('p2m.kunjungan_wisata.view_surat', $item->id) }}"
                                                 target="_blank"
                                                 class="bg-sky-500 hover:bg-sky-600 text-white px-3 py-2 rounded-md">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>
 
                                             {{-- Download File --}}
-                                            <a href="{{ route('admin.wisata.downloadSurat', $item->id) }}"
+                                            <a href="{{ route('p2m.kunjungan_wisata.download_surat', $item->id) }}"
                                                 class="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-md">
                                                 <i class="fa-solid fa-download"></i>
                                             </a>

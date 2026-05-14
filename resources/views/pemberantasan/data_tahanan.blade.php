@@ -74,7 +74,7 @@
                                 </button>
 
                                 <form id="delete-form-{{ $item->id }}" method="POST"
-                                    action="{{ route('admin.pemberantasan.data_tahanan.destroy', $item->id) }}"
+                                    action="{{ route('pemberantasan.data_tahanan.destroy', $item->id) }}"
                                     class="hidden">
                                     @csrf
                                     @method('DELETE')
