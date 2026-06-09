@@ -74,174 +74,201 @@
     <form action="{{ route('tat.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        {{-- DATA PENDAFTARAN --}}
         <div class="bg-white rounded-xl shadow-md border border-[#022D57] p-8 mt-5
-            w-full md:w-3/4 lg:w-3/4 mx-auto">
+        w-full md:w-3/4 lg:w-3/4 mx-auto">
 
-            <h2 class="text-xl font-bold text-black mb-6">Data Pendaftaran</h2>
+            {{-- Judul --}}
+            <h2 class="text-xl font-bold text-[#022D57] mb-4">
+                Permohonan TAT
+            </h2>
 
-            <div class="space-y-5">
-                {{-- Nama Lengkap --}}
-                <div>
-                    <label class="block font-medium text-sm mb-1">Nama Lengkap<span class="text-red-500">*</span></label>
-                    <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap') }}" required
-                        class="w-full border border-gray-300 rounded-md p-2">
+            {{-- Tab Navigation --}}
+            <div class="border-b border-gray-200 mb-6">
+                <div class="flex flex-wrap">
+
+                    <button type="button"
+                        class="tab-btn px-6 py-3 border-b-2 border-[#022D57] text-[#022D57] font-medium"
+                        data-tab="pendaftaran">
+                        Data Pendaftaran
+                    </button>
+
+                    <button type="button" class="tab-btn px-6 py-3 text-gray-500 font-medium" data-tab="tersangka">
+                        Identitas Tersangka
+                    </button>
+
                 </div>
-
-                {{-- Alamat --}}
-                <div>
-                    <label class="block font-medium text-sm mb-1">Alamat<span class="text-red-500">*</span></label>
-                    <input type="text" name="alamat" value="{{ old('alamat') }}" required
-                        class="w-full border border-gray-300 rounded-md p-2">
-                </div>
-
-                {{-- Instansi --}}
-                <div>
-                    <label class="block font-medium text-sm mb-1">Instansi<span class="text-red-500">*</span></label>
-                    <select name="instansi" class="w-full border border-gray-300 rounded-md p-2" required>
-                        <option value="">-- Pilih Instansi --</option>
-
-                        <option value="POLDA KEPRI"
-                            {{ old('instansi') == 'POLDA KEPRI' ? 'selected' : '' }}>
-                            POLDA KEPRI
-                        </option>
-
-                        <option value="POLDA BARELANG"
-                            {{ old('instansi') == 'POLDA BARELANG' ? 'selected' : '' }}>
-                            POLDA BARELANG
-                        </option>
-
-                        <option value="POLRES TANJUNGPINANG"
-                            {{ old('instansi') == 'POLRES TANJUNGPINANG' ? 'selected' : '' }}>
-                            POLRES TANJUNGPINANG
-                        </option>
-
-                        <option value="POLRES TANJUNG BALAI KARIMUN"
-                            {{ old('instansi') == 'POLRES TANJUNG BALAI KARIMUN' ? 'selected' : '' }}>
-                            POLRES TANJUNG BALAI KARIMUN
-                        </option>
-
-                        <option value="POLRES BINTAN"
-                            {{ old('instansi') == 'POLRES BINTAN' ? 'selected' : '' }}>
-                            POLRES BINTAN
-                        </option>
-                    </select>
-                </div>
-
-                {{-- Nama Penyidik --}}
-                <div>
-                    <label class="block font-medium text-sm mb-1">Nama Penyidik<span class="text-red-500">*</span></label>
-                    <input type="text" name="nama_penyidik" value="{{ old('nama_penyidik') }}"
-                        required class="w-full border border-gray-300 rounded-md p-2">
-                </div>
-
-                {{-- No Telepon Penyidik --}}
-                <div>
-                    <label class="block font-medium text-sm mb-1">No Telepon Penyidik<span class="text-red-500">*</span></label>
-                    <input type="text" name="wa_penyidik" value="{{ old('wa_penyidik') }}" required
-                        class="w-full border border-gray-300 rounded-md p-2">
-                </div>
-
-                {{-- Tanggal Surat Pengajuan --}}
-                <div>
-                    <label class="block font-medium text-sm mb-1">Tanggal Surat Pengajuan<span class="text-red-500">*</span></label>
-                    <input type="date" name="tanggal_surat_pengajuan"
-                        value="{{ old('tanggal_surat_pengajuan') }}" required
-                        class="w-full border border-gray-300 rounded-md p-2">
-                </div>
-
-                {{-- Surat Permohonan --}}
-                <div>
-                    <label class="block font-medium text-sm text-gray-800 mb-1">
-                        Surat Permohonan<span class="text-red-500">*</span>
-                    </label>
-
-                    <input type="file" name="file_surat_permohonan" accept=".pdf,.doc,.docx"
-                        class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#022D57] focus:border-[#022D57]">
-
-                    <p class="text-xs text-gray-500 mt-1">
-                        Format file: <b>PDF, DOC, DOCX</b> • Maksimal ukuran: <b>2 MB</b>
-                    </p>
-
-                    @error('file_surat_permohonan')
-                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                {{-- Tanggal Laporan Polisi --}}
-                <div>
-                    <label class="block font-medium text-sm mb-1">Tanggal Laporan Polisi<span class="text-red-500">*</span></label>
-                    <input type="date" name="tanggal_lp" value="{{ old('tanggal_lp') }}" required
-                        class="w-full border border-gray-300 rounded-md p-2">
-                </div>
-
-                {{-- Laporan Polisi --}}
-                <div>
-                    <label class="block font-medium text-sm text-gray-800 mb-1">
-                        Laporan Polisi<span class="text-red-500">*</span>
-                    </label>
-
-                    <input type="file" name="file_lp" accept=".pdf,.doc,.docx"
-                        class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#022D57] focus:border-[#022D57]">
-
-                    <p class="text-xs text-gray-500 mt-1">
-                        Format file: <b>PDF, DOC, DOCX</b> • Maksimal ukuran: <b>2 MB</b>
-                    </p>
-
-                    @error('file_lp')
-                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                {{-- Tanggal Penangkapan --}}
-                <div>
-                    <label class="block font-medium text-sm mb-1">Tanggal Penangkapan<span class="text-red-500">*</span></label>
-                    <input type="date" name="tanggal_penangkapan"
-                        value="{{ old('tanggal_penangkapan') }}" required
-                        class="w-full border border-gray-300 rounded-md p-2">
-                </div>
-
-                {{-- Surat Penangkapan --}}
-                <div>
-                    <label class="block font-medium text-sm text-gray-800 mb-1">
-                        Surat Penangkapan<span class="text-red-500">*</span>
-                    </label>
-
-                    <input type="file" name="file_penangkapan" accept=".pdf,.doc,.docx"
-                        class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#022D57] focus:border-[#022D57]">
-
-                    <p class="text-xs text-gray-500 mt-1">
-                        Format file: <b>PDF, DOC, DOCX</b> • Maksimal ukuran: <b>2 MB</b>
-                    </p>
-
-                    @error('file_penangkapan')
-                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
             </div>
-        </div>
 
-        {{-- IDENTITAS TERSANGKA --}}
-        <div class="bg-white rounded-xl shadow-md border border-[#022D57] p-8 mt-5
-            w-full md:w-3/4 lg:w-3/4 mx-auto">
+            {{-- TAB 1 --}}
+            <div id="pendaftaran" class="tab-content block space-y-2">
 
-            <h2 class="text-xl font-bold text-black mb-6">Identitas Tersangka<span class="text-red-500">*</span></h2>
 
-            <div class="space-y-5">
+                <div class="space-y-5">
+                    {{-- Nama Lengkap --}}
+                    <div>
+                        <label class="block font-medium text-sm mb-1">Nama Lengkap<span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap') }}"
+                            required class="w-full border border-gray-300 rounded-md p-2">
+                    </div>
+
+                    {{-- Alamat --}}
+                    <div>
+                        <label class="block font-medium text-sm mb-1">Alamat<span class="text-red-500">*</span></label>
+                        <input type="text" name="alamat" value="{{ old('alamat') }}" required
+                            class="w-full border border-gray-300 rounded-md p-2">
+                    </div>
+
+                    {{-- Instansi --}}
+                    <div>
+                        <label class="block font-medium text-sm mb-1">Instansi<span
+                                class="text-red-500">*</span></label>
+                        <select name="instansi" class="w-full border border-gray-300 rounded-md p-2" required>
+                            <option value="">-- Pilih Instansi --</option>
+
+                            <option value="POLDA KEPRI"
+                                {{ old('instansi') == 'POLDA KEPRI' ? 'selected' : '' }}>
+                                POLDA KEPRI
+                            </option>
+
+                            <option value="POLDA BARELANG"
+                                {{ old('instansi') == 'POLDA BARELANG' ? 'selected' : '' }}>
+                                POLDA BARELANG
+                            </option>
+
+                            <option value="POLRES TANJUNGPINANG"
+                                {{ old('instansi') == 'POLRES TANJUNGPINANG' ? 'selected' : '' }}>
+                                POLRES TANJUNGPINANG
+                            </option>
+
+                            <option value="POLRES TANJUNG BALAI KARIMUN"
+                                {{ old('instansi') == 'POLRES TANJUNG BALAI KARIMUN' ? 'selected' : '' }}>
+                                POLRES TANJUNG BALAI KARIMUN
+                            </option>
+
+                            <option value="POLRES BINTAN"
+                                {{ old('instansi') == 'POLRES BINTAN' ? 'selected' : '' }}>
+                                POLRES BINTAN
+                            </option>
+                        </select>
+                    </div>
+
+                    {{-- Nama Penyidik --}}
+                    <div>
+                        <label class="block font-medium text-sm mb-1">Nama Penyidik<span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="nama_penyidik" value="{{ old('nama_penyidik') }}"
+                            required class="w-full border border-gray-300 rounded-md p-2">
+                    </div>
+
+                    {{-- No Telepon Penyidik --}}
+                    <div>
+                        <label class="block font-medium text-sm mb-1">No Telepon Penyidik<span
+                                class="text-red-500">*</span></label>
+                        <input type="text" name="wa_penyidik" value="{{ old('wa_penyidik') }}"
+                            required class="w-full border border-gray-300 rounded-md p-2">
+                    </div>
+
+                    {{-- Tanggal Surat Pengajuan --}}
+                    <div>
+                        <label class="block font-medium text-sm mb-1">Tanggal Surat Pengajuan<span
+                                class="text-red-500">*</span></label>
+                        <input type="date" name="tanggal_surat_pengajuan"
+                            value="{{ old('tanggal_surat_pengajuan') }}" required
+                            class="w-full border border-gray-300 rounded-md p-2">
+                    </div>
+
+                    {{-- Surat Permohonan --}}
+                    <div>
+                        <label class="block font-medium text-sm text-gray-800 mb-1">
+                            Surat Permohonan<span class="text-red-500">*</span>
+                        </label>
+
+                        <input type="file" name="file_surat_permohonan" accept=".pdf,.doc,.docx"
+                            class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#022D57] focus:border-[#022D57]">
+
+                        <p class="text-xs text-gray-500 mt-1">
+                            Format file: <b>PDF, DOC, DOCX</b> • Maksimal ukuran: <b>2 MB</b>
+                        </p>
+
+                        @error('file_surat_permohonan')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Tanggal Laporan Polisi --}}
+                    <div>
+                        <label class="block font-medium text-sm mb-1">Tanggal Laporan Polisi<span
+                                class="text-red-500">*</span></label>
+                        <input type="date" name="tanggal_lp" value="{{ old('tanggal_lp') }}" required
+                            class="w-full border border-gray-300 rounded-md p-2">
+                    </div>
+
+                    {{-- Laporan Polisi --}}
+                    <div>
+                        <label class="block font-medium text-sm text-gray-800 mb-1">
+                            Laporan Polisi<span class="text-red-500">*</span>
+                        </label>
+
+                        <input type="file" name="file_lp" accept=".pdf,.doc,.docx"
+                            class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#022D57] focus:border-[#022D57]">
+
+                        <p class="text-xs text-gray-500 mt-1">
+                            Format file: <b>PDF, DOC, DOCX</b> • Maksimal ukuran: <b>2 MB</b>
+                        </p>
+
+                        @error('file_lp')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Tanggal Penangkapan --}}
+                    <div>
+                        <label class="block font-medium text-sm mb-1">Tanggal Penangkapan<span
+                                class="text-red-500">*</span></label>
+                        <input type="date" name="tanggal_penangkapan"
+                            value="{{ old('tanggal_penangkapan') }}" required
+                            class="w-full border border-gray-300 rounded-md p-2">
+                    </div>
+
+                    {{-- Surat Penangkapan --}}
+                    <div>
+                        <label class="block font-medium text-sm text-gray-800 mb-1">
+                            Surat Penangkapan<span class="text-red-500">*</span>
+                        </label>
+
+                        <input type="file" name="file_penangkapan" accept=".pdf,.doc,.docx"
+                            class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#022D57] focus:border-[#022D57]">
+
+                        <p class="text-xs text-gray-500 mt-1">
+                            Format file: <b>PDF, DOC, DOCX</b> • Maksimal ukuran: <b>2 MB</b>
+                        </p>
+
+                        @error('file_penangkapan')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                </div>
+            </div>
+
+            {{-- IDENTITAS TERSANGKA --}}
+            {{-- TAB 2 --}}
+            <div id="tersangka" class="tab-content space-y-2">
+
                 {{-- NIK --}}
                 <div>
                     <label class="block font-medium text-sm mb-1">
                         NIK <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" name="nik" value="{{ old('nik') }}"
-                        required maxlength="16" minlength="16" pattern="[0-9]{16}"
-                        class="w-full border border-gray-300 rounded-md p-2"
+                    <input type="text" name="nik" value="{{ old('nik') }}" required maxlength="16"
+                        minlength="16" pattern="[0-9]{16}" class="w-full border border-gray-300 rounded-md p-2"
                         placeholder="Masukkan 16 digit NIK">
                 </div>
                 {{-- Nama Tersangka --}}
                 <div>
-                    <label class="block font-medium text-sm mb-1">Nama Lengkap Tersangka<span class="text-red-500">*</span></label>
+                    <label class="block font-medium text-sm mb-1">Nama Lengkap Tersangka<span
+                            class="text-red-500">*</span></label>
                     <input type="text" name="nama_tersangka" value="{{ old('nama_tersangka') }}"
                         required class="w-full border border-gray-300 rounded-md p-2">
                 </div>
@@ -338,13 +365,14 @@
 
                     </div>
                     @error('barang_bukti')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
                 {{-- Berat Barang Bukti --}}
                 <div>
-                    <label class="block font-medium text-sm mb-1">Berat Barang Bukti (gram)<span class="text-red-500">*</span></label>
+                    <label class="block font-medium text-sm mb-1">Berat Barang Bukti (gram)<span
+                            class="text-red-500">*</span></label>
                     <input type="text" name="berat_barang_bukti"
                         value="{{ old('berat_barang_bukti') }}" required
                         class="w-full border border-gray-300 rounded-md p-2">
@@ -419,20 +447,19 @@
 
                     </div>
                     @error('hasil_urine')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
                 {{-- Konfirmasi --}}
                 <div>
                     <label class="flex items-start gap-2 mt-2">
-                        <input type="checkbox" name="konfirmasi"
-                            value="1"
+                        <input type="checkbox" name="konfirmasi" value="1"
                             {{ old('konfirmasi') ? 'checked' : '' }}
-                            required
-                            class="w-4 h-4 text-[#022D57] border-gray-300 rounded mt-1">
+                            required class="w-4 h-4 text-[#022D57] border-gray-300 rounded mt-1">
 
                         <span class="text-sm text-gray-700 font-semibold">
-                            Saya memahami bahwa data yang diisikan dalam formulir ini benar dan bertanggung jawab atas hal tersebut
+                            Saya memahami bahwa data yang diisikan dalam formulir ini benar dan bertanggung jawab atas
+                            hal tersebut
                         </span>
                     </label>
                 </div>
@@ -445,6 +472,7 @@
                 </div>
 
             </div>
+
         </div>
     </form>
 </div>
@@ -460,4 +488,40 @@
 
     </script>
 @endif
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const tabButtons = document.querySelectorAll('.tab-btn');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function () {
+
+                const target = this.dataset.tab;
+
+                // Reset semua tab button
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('border-b-2', 'border-[#022D57]',
+                        'text-[#022D57]');
+                    btn.classList.add('text-gray-500');
+                });
+
+                // Aktifkan button yang diklik
+                this.classList.add('border-b-2', 'border-[#022D57]', 'text-[#022D57]');
+                this.classList.remove('text-gray-500');
+
+                // Sembunyikan SEMUA tab content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                    content.classList.remove('block'); // ← tambahan penting
+                });
+
+                // Tampilkan tab yang dipilih
+                document.getElementById(target).classList.remove('hidden');
+                document.getElementById(target).classList.add('block'); // ← tambahan penting
+            });
+        });
+
+    });
+
+</script>
 @endsection

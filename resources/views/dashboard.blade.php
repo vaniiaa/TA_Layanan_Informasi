@@ -1,4 +1,4 @@
-{{-- resources/views/welcome.blade.php --}}
+{{-- resources/views/dashboard.blade.php --}}
 @extends('layout.user')
 
 @section('content')
@@ -179,6 +179,7 @@
                     </button>
 
                 </div>
+</a>
         @endforeach
 
     </div>

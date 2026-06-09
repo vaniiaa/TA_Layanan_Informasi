@@ -82,94 +82,136 @@
         <form action="{{ route('wisata_edukasi.store') }}" method="POST" enctype="multipart/form-data"
             class="space-y-5">
             @csrf
+            <div class="border-b border-gray-200 mb-6">
+                <div class="flex flex-wrap">
 
-            {{-- Nama Lengkap --}}
-            <div>
-                <label class="block font-medium text-sm text-gray-800 mb-1">Nama Lengkap PIC<span
-                        class="text-red-500">*</span></label>
-                <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap') }}" required
-                    class="w-full border border-gray-300 rounded-md p-2">
+                    <button type="button"
+                        class="tab-btn px-6 py-3 border-b-2 border-[#022D57] text-[#022D57] font-medium"
+                        data-tab="pemohon">
+                        Data Pemohon
+                    </button>
+
+                    <button type="button" class="tab-btn px-6 py-3 text-gray-500 font-medium" data-tab="kunjungan">
+                        Detail Kunjungan
+                    </button>
+
+                </div>
+            </div>
+            {{-- ================= TAB 1 ================= --}}
+            <div id="pemohon" class="tab-content block space-y-5">
+
+                {{-- Nama Lengkap --}}
+                <div>
+                    <label class="block font-medium text-sm text-gray-800 mb-2">
+                        Nama Lengkap PIC <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap') }}" required
+                        class="w-full border border-gray-300 rounded-md p-2">
+                </div>
+
+                {{-- No Telp --}}
+                <div>
+                    <label class="block font-medium text-sm text-gray-800 mb-2">
+                        No Telp PIC <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" name="no_telp" value="{{ old('no_telp') }}" required
+                        class="w-full border border-gray-300 rounded-md p-2">
+                </div>
+
+                {{-- Nama Sekolah --}}
+                <div>
+                    <label class="block font-medium text-sm text-gray-800 mb-2">
+                        Nama Sekolah <span class="text-red-500">*</span>
+                    </label>
+
+                    <select id="data_sekolah_id" name="data_sekolah_id" required
+                        class="w-full border border-gray-300 rounded-md p-2">
+
+                        <option value="">-- Pilih Sekolah --</option>
+
+                        @foreach($sekolah as $item)
+                            <option value="{{ $item->id }}"
+                                {{ old('data_sekolah_id') == $item->id ? 'selected' : '' }}>
+                                {{ $item->nama_sekolah }}
+                            </option>
+                        @endforeach
+
+                    </select>
+                </div>
+
+                {{-- NPSN --}}
+                <div>
+                    <label class="block font-medium text-sm text-gray-800 mb-2">
+                        NPSN
+                    </label>
+
+                    <input type="text" id="npsn" readonly
+                        class="w-full border border-gray-300 rounded-md p-2 bg-gray-100">
+                </div>
+
+                {{-- Alamat --}}
+                <div>
+                    <label class="block font-medium text-sm text-gray-800 mb-2">
+                        Alamat
+                    </label>
+
+                    <textarea id="alamat" name="alamat" readonly rows="3"
+                        class="w-full border border-gray-300 rounded-md p-2 bg-gray-100">{{ old('alamat') }}</textarea>
+                </div>
+
             </div>
 
-            {{-- No Telp --}}
-            <div>
-                <label class="block font-medium text-sm text-gray-800 mb-1">No Telp PIC<span
-                        class="text-red-500">*</span></label>
-                <input type="text" name="no_telp" value="{{ old('no_telp') }}" required
-                    class="w-full border border-gray-300 rounded-md p-2">
-            </div>
-          {{-- Nama Sekolah --}}
-<div>
-    <label class="block font-medium text-sm text-gray-800 mb-1">
-        Nama Sekolah<span class="text-red-500">*</span>
-    </label>
-
-    <select id="data_sekolah_id" name="data_sekolah_id" required
-        class="w-full border border-gray-300 rounded-md p-2">
-
-        <option value="">-- Pilih Sekolah --</option>
-
-        @foreach($sekolah as $item)
-            <option value="{{ $item->id }}"
-                {{ old('data_sekolah_id') == $item->id ? 'selected' : '' }}>
-                {{ $item->nama_sekolah }}
-            </option>
-        @endforeach
-
-    </select>
-</div>
-            <div>
-                <label class="block font-medium text-sm text-gray-800 mb-1">
-                    NPSN
-                </label>
-                <input type="text" id="npsn" readonly class="w-full border border-gray-300 rounded-md p-2 bg-gray-100">
-            </div>
-            {{-- Alamat --}}
-            <div>
-                <label class="block font-medium text-sm text-gray-800 mb-1">Alamat<span
-                        class="text-red-500">*</span></label>
-                <input type="text" id="alamat" name="alamat" value="{{ old('alamat') }}" readonly
-                    class="w-full border border-gray-300 rounded-md p-2 bg-gray-100 mb-4">
-
+            {{-- ================= TAB 2 ================= --}}
+            <div id="kunjungan" class="tab-content space-y-5">
 
                 {{-- Tanggal & Waktu --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
                     <div>
-                        <label class="block font-medium text-sm text-gray-800 mb-1">Tanggal Kegiatan<span
-                                class="text-red-500">*</span></label>
+                        <label class="block font-medium text-sm text-gray-800 mb-2">
+                            Tanggal Kegiatan <span class="text-red-500">*</span>
+                        </label>
+
                         <input type="date" name="tanggal_kegiatan"
                             value="{{ old('tanggal_kegiatan') }}" required
-                            class="w-full border border-gray-300 rounded-md p-2 mb-4">
+                            class="w-full border border-gray-300 rounded-md p-2">
                     </div>
+
                     <div>
-                        <label class="block font-medium text-sm text-gray-800 mb-1">Waktu Kegiatan<span
-                                class="text-red-500">*</span></label>
+                        <label class="block font-medium text-sm text-gray-800 mb-2">
+                            Waktu Kegiatan <span class="text-red-500">*</span>
+                        </label>
+
                         <input type="time" name="waktu_kegiatan" value="{{ old('waktu_kegiatan') }}"
                             required class="w-full border border-gray-300 rounded-md p-2">
                     </div>
+
                 </div>
 
                 {{-- Jumlah Peserta --}}
                 <div>
-                    <label class="block font-medium text-sm text-gray-800 mb-1">
-                        Jumlah Peserta (Maks: 30 peserta/kunjungan)<span class="text-red-500">*</span>
+                    <label class="block font-medium text-sm text-gray-800 mb-2">
+                        Jumlah Peserta (Maks: 30 peserta/kunjungan)
+                        <span class="text-red-500">*</span>
                     </label>
+
                     <input type="number" name="jumlah_peserta" value="{{ old('jumlah_peserta') }}"
                         max="30" min="1" required oninput="if(this.value > 30) this.value = 30;"
-                        class="w-full border border-gray-300 rounded-md p-2 mb-4">
+                        class="w-full border border-gray-300 rounded-md p-2">
                 </div>
 
-                {{-- Surat Permohonan --}}
+                {{-- Surat --}}
                 <div>
-                    <label class="block font-medium text-sm text-gray-800 mb-1">
-                        Surat Permohonan<span class="text-red-500">*</span>
+                    <label class="block font-medium text-sm text-gray-800 mb-2">
+                        Surat Permohonan <span class="text-red-500">*</span>
                     </label>
 
                     <input type="file" name="surat_permohonan" accept=".pdf,.doc,.docx"
                         class="w-full border border-gray-300 rounded-md p-2">
 
-                    <p class="text-xs text-gray-500 mt-1 mb-4">
-                        Format file: <b>PDF, DOC, DOCX</b> • Maksimal ukuran: <b>2 MB</b>
+                    <p class="text-xs text-gray-500 mt-1">
+                        Format file: <b>PDF, DOC, DOCX</b> • Maksimal ukuran:
+                        <b>2 MB</b>
                     </p>
 
                     @error('surat_permohonan')
@@ -179,25 +221,28 @@
 
                 {{-- Konfirmasi --}}
                 <div>
-                    <label class="flex items-center gap-2 mt-2">
+                    <label class="flex items-start gap-2">
+
                         <input type="checkbox" name="konfirmasi"
                             value="Saya memahami bahwa data yang diisikan benar dan bertanggung jawab"
-                            {{ old('konfirmasi') == '   Saya memahami bahwa data yang diisikan benar dan bertanggung jawab' ? 'checked' : '' }}
+                            {{ old('konfirmasi') ? 'checked' : '' }}
                             required>
 
                         <span class="text-sm text-gray-800">
                             Saya memahami bahwa data yang diisikan benar dan bertanggung jawab
                         </span>
+
                     </label>
                 </div>
 
-                {{-- Tombol Submit --}}
+                {{-- Submit --}}
                 <div class="flex justify-end">
                     <button type="submit"
                         class="bg-[#022D57] hover:bg-[#034077] transition text-white px-6 py-2 rounded-md">
                         Kirim
                     </button>
                 </div>
+            </div>
         </form>
     </div>
 </div>
@@ -208,7 +253,7 @@
 <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
 
 <script>
-    new TomSelect("#data_sekolah_id",{
+    new TomSelect("#data_sekolah_id", {
         create: false,
         sortField: {
             field: "text",
@@ -216,6 +261,7 @@
         },
         placeholder: "Cari nama sekolah..."
     });
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if($errors->any())
@@ -247,6 +293,56 @@
             document.getElementById('alamat').value = '';
         }
     });
+
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+
+        tab.addEventListener('click', function () {
+
+            const target = this.dataset.tab;
+
+            // sembunyikan semua tab
+            contents.forEach(content => {
+                content.classList.add('hidden');
+                content.classList.remove('block');
+            });
+
+            // tampilkan tab yang dipilih
+            const activeTab = document.getElementById(target);
+
+            activeTab.classList.remove('hidden');
+            activeTab.classList.add('block');
+
+            // styling tombol
+            tabs.forEach(btn => {
+                btn.classList.remove(
+                    'border-b-2',
+                    'border-[#022D57]',
+                    'text-[#022D57]'
+                );
+
+                btn.classList.add('text-gray-500');
+            });
+
+            this.classList.remove('text-gray-500');
+
+            this.classList.add(
+                'border-b-2',
+                'border-[#022D57]',
+                'text-[#022D57]'
+            );
+
+        });
+
+    });
+
+});
 
 </script>
 @endsection

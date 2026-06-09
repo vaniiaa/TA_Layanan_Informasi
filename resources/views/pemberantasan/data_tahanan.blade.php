@@ -48,7 +48,7 @@
                             <td>{{ $item->nomor_tahanan }}</td>
                             <td>{{ $item->nama_tahanan }}</td>
                             <td>
-                                {{ \Carbon\Carbon::parse($item->tanggal_lahir)->format('d/m/Y') }}
+                                {{ \Carbon\Carbon::parse($item->dimulai_penahanan)->format('d/m/Y') }}
                             </td>
                             <td>{{ $item->pasal_dilanggar }}</td>
                             <td>{{ $item->warga_negara }}</td>
@@ -310,7 +310,7 @@
                                             <div>
                                                 <label class="font-medium">Dimulai Penahanan</label>
                                                 <div class="p-2 border rounded bg-gray-100">
-                                                     {{ \Carbon\Carbon::parse($item->tanggal_lahir)->format('d/m/Y') }}
+                                                     {{ \Carbon\Carbon::parse($item->dimulai_penahanan)->format('d/m/Y') }}
                                                 </div>
                                             </div>
 
@@ -329,7 +329,7 @@
                                             <div>
                                                 <label class="font-medium">Tanggal Lahir</label>
                                                 <div class="p-2 border rounded bg-gray-100">
-                                                    {{ $item->tanggal_lahir }}
+                                                    {{ \Carbon\Carbon::parse($item->tanggal_lahir)->format('d/m/Y') }}
                                                 </div>
                                             </div>
 

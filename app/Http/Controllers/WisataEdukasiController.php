@@ -16,10 +16,11 @@ class WisataEdukasiController extends Controller
 {
     // Form user
     public function create()
-    {
-        $sekolah = DataSekolah::all();
-        return view('user.p2m.wisata_edukasi', compact('sekolah'));
-    }
+{
+    $sekolah = DataSekolah::orderBy('nama_sekolah', 'asc')->get();
+
+    return view('user.p2m.wisata_edukasi', compact('sekolah'));
+}
 
     // Simpan data
     public function store(Request $request)

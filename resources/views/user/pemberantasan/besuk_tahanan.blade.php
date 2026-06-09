@@ -80,9 +80,7 @@
         </h3>
 
         <div class="flex flex-col sm:flex-row gap-3">
-            <input type="text"
-                id="nomorTahanan"
-                placeholder="Masukkan nomor tahanan"
+            <input type="text" id="nomorTahanan" placeholder="Masukkan nomor tahanan"
                 class="input input-bordered w-full">
 
             <button onclick="cekTahanan()" class="btn btn-primary sm:w-auto">
@@ -91,351 +89,399 @@
         </div>
 
         {{-- HASIL DATA --}}
-<div id="hasilTahanan" class="mt-4 hidden">
-    <div class="bg-blue-50 border border-blue-300 rounded-lg p-4 text-sm space-y-3">
+        <div id="hasilTahanan" class="mt-4 hidden">
+            <div class="bg-blue-50 border border-blue-300 rounded-lg p-4 text-sm space-y-3">
 
-        {{-- Nama Tahanan --}}
-        <div>
-            <label class="font-semibold text-gray-700">
-                Nama Tahanan
-            </label>
+                {{-- Nama Tahanan --}}
+                <div>
+                    <label class="font-semibold text-gray-700">
+                        Nama Tahanan
+                    </label>
 
-            <input type="text"
-                id="namaTahanan"
-                class="input input-bordered w-full mt-1 bg-white"
-                readonly>
+                    <input type="text" id="namaTahanan" class="input input-bordered w-full mt-1 bg-white" readonly>
+                </div>
+
+                {{-- Nomor Tahanan --}}
+                <div>
+                    <label class="font-semibold text-gray-700">
+                        Nomor Tahanan
+                    </label>
+
+                    <input type="text" id="nomorTahananHasil" class="input input-bordered w-full mt-1 bg-white"
+                        readonly>
+                </div>
+
+                {{-- Warga Negara --}}
+                <div>
+                    <label class="font-semibold text-gray-700">
+                        Warga Negara
+                    </label>
+
+                    <input type="text" id="wargaNegara" class="input input-bordered w-full mt-1 bg-white" readonly>
+                </div>
+
+            </div>
         </div>
 
-        {{-- Nomor Tahanan --}}
-        <div>
-            <label class="font-semibold text-gray-700">
-                Nomor Tahanan
-            </label>
-
-            <input type="text"
-                id="nomorTahananHasil"
-                class="input input-bordered w-full mt-1 bg-white"
-                readonly>
-        </div>
-
-        {{-- Warga Negara --}}
-        <div>
-            <label class="font-semibold text-gray-700">
-                Warga Negara
-            </label>
-
-            <input type="text"
-                id="wargaNegara"
-                class="input input-bordered w-full mt-1 bg-white"
-                readonly>
+        {{-- TIDAK DITEMUKAN --}}
+        <div id="notFound" class="mt-4 hidden text-red-600 font-medium text-sm">
+            Nomor tahanan tidak ditemukan
         </div>
 
     </div>
-</div>
 
-{{-- TIDAK DITEMUKAN --}}
-<div id="notFound" class="mt-4 hidden text-red-600 font-medium text-sm">
-    Nomor tahanan tidak ditemukan
-</div>
+    <form action="{{ route('besuk.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
 
-</div>
+        {{-- ===================== CARD 1 ===================== --}}
+        <div id="cardPendaftaran" class="hidden">
 
-<div id="cardPendaftaran" class="hidden">
+            <div class="bg-white rounded-xl shadow-md border border-[#022D57] p-8 mt-5
+        w-full md:w-3/4 lg:w-3/4 mx-auto">
 
-<form action="{{ route('besuk.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+                <h2 class="text-xl font-bold text-[#022D57] mb-4">
+                    Data Permohonan 
+                </h2>
 
-    {{-- ===================== CARD 1 ===================== --}}
-    <div class="bg-white rounded-xl shadow-md border border-[#022D57] p-8 mt-5 
-            w-full md:w-3/4 lg:w-3/4 mx-auto">
+                <form action="{{ route('besuk.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
-        <h2 class="text-xl font-bold text-black mb-6">
-            Data Permohonan
-        </h2>
+                    {{-- Hidden ID Tahanan --}}
+                    <input type="hidden" name="tahanan_id" id="tahanan_id">
 
-        {{-- hidden tahanan id --}}
-        <input type="hidden" name="tahanan_id" id="tahanan_id">
+                    {{-- TAB NAVIGATION --}}
+                    <div class="border-b border-gray-200 mb-6">
+                        <div class="flex flex-wrap">
 
-        
+                            <button type="button"
+                                class="tab-btn px-6 py-3 border-b-2 border-[#022D57] text-[#022D57] font-medium"
+                                data-tab="permohonan">
+                                Data Kunjungan
+                            </button>
 
-        <div class="mb-4">
-            <label class="block font-medium text-sm text-gray-800 mb-1">
-                Hari Kunjungan
-                <span class="text-red-500">*</span>
-            </label>
+                            <button type="button" class="tab-btn px-6 py-3 text-gray-500 font-medium"
+                                data-tab="pembesuk">
+                                Data Pembesuk
+                            </button>
 
-            <select name="hari_kunjungan"
-                required
-                class="w-full border border-gray-300 rounded-md p-2">
-
-                <option value="">-- Pilih Hari --</option>
-
-                <option value="Selasa"
-                    {{ old('hari_kunjungan') == 'Selasa' ? 'selected' : '' }}>
-                    Selasa
-                </option>
-
-                <option value="Kamis"
-                    {{ old('hari_kunjungan') == 'Kamis' ? 'selected' : '' }}>
-                    Kamis
-                </option>
-            </select>
-        </div>
-
-        <div class="mb-4">
-            <label class="block font-medium text-sm text-gray-800 mb-1">
-                Tanggal Kedatangan
-                <span class="text-red-500">*</span>
-            </label>
-
-            <input type="date"
-                name="tanggal_kedatangan"
-                value="{{ old('tanggal_kedatangan') }}"
-                required
-                class="w-full border border-gray-300 rounded-md p-2">
-        </div>
-
-        <div class="mb-4">
-            <label class="block font-medium text-sm text-gray-800 mb-1">
-                Jam Masuk
-                <span class="text-red-500">*</span>
-            </label>
-
-            <input type="time"
-                name="jam_masuk"
-                value="{{ old('jam_masuk') }}"
-                required
-                class="w-full border border-gray-300 rounded-md p-2">
-        </div>
-    </div>
-
-        {{-- ===================== CARD 2 ===================== --}}
-        <div class="bg-white rounded-xl shadow-md border border-[#022D57] p-8 mt-5 
-                w-full md:w-3/4 lg:w-3/4 mx-auto">
-
-            <h2 class="text-xl font-bold text-black mb-6">Self Assessment Pembesuk</h2>
-
-            <div class="space-y-3">
-
-                <div class="mb-4">
-                    <label class="block font-medium text-sm text-gray-800 mb-2">
-                        Self Assessment Kesehatan Pembesuk Tahanan<span class="text-red-500">*</span>
-                    </label>
-
-                    {{-- Kesehatan Pembesuk --}}
-                    <div class="space-y-2">
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="self_assessment" value="Sehat" required
-                                {{ old('self_assessment') == 'Sehat' ? 'checked' : '' }}>
-                            <span>Sehat</span>
-                        </label>
-
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="self_assessment" value="Tidak Sehat" 
-                                {{ old('self_assessment') == 'Tidak Sehat' ? 'checked' : '' }}>
-                            <span>Tidak Sehat</span>
-                        </label>
+                        </div>
                     </div>
-                </div>
+
+                    {{-- ================= TAB DATA PERMOHONAN ================= --}}
+                    <div id="permohonan" class="tab-content block space-y-4">
+
+                        <div>
+                            <label class="block font-medium text-sm text-gray-800 mb-1">
+                                Hari Kunjungan
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <select name="hari_kunjungan" required
+                                class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#022D57] focus:border-[#022D57]">
+
+                                <option value="">-- Pilih Hari --</option>
+
+                                <option value="Selasa"
+                                    {{ old('hari_kunjungan') == 'Selasa' ? 'selected' : '' }}>
+                                    Selasa
+                                </option>
+
+                                <option value="Kamis"
+                                    {{ old('hari_kunjungan') == 'Kamis' ? 'selected' : '' }}>
+                                    Kamis
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-medium text-sm text-gray-800 mb-1">
+                                Tanggal Kedatangan
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <input type="date" name="tanggal_kedatangan"
+                                value="{{ old('tanggal_kedatangan') }}" required
+                                class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#022D57] focus:border-[#022D57]">
+                        </div>
+
+                        <div>
+                            <label class="block font-medium text-sm text-gray-800 mb-1">
+                                Jam Masuk
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <input type="time" name="jam_masuk" value="{{ old('jam_masuk') }}"
+                                required
+                                class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#022D57] focus:border-[#022D57]">
+                        </div>
+
+                    </div>
+
+                    {{-- ================= TAB DATA PEMBESUK ================= --}}
+                    <div id="pembesuk" class="tab-content hidden space-y-4">
+
+                        <div>
+                            <label class="block font-medium text-sm text-gray-800 mb-2">
+                                Self Assessment Kesehatan Pembesuk
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <div class="space-y-2">
+
+                                <label class="flex items-center gap-2">
+                                    <input type="radio" name="self_assessment" value="Sehat" required
+                                        {{ old('self_assessment') == 'Sehat' ? 'checked' : '' }}>
+
+                                    <span>Sehat</span>
+                                </label>
+
+                                <label class="flex items-center gap-2">
+                                    <input type="radio" name="self_assessment" value="Tidak Sehat"
+                                        {{ old('self_assessment') == 'Tidak Sehat' ? 'checked' : '' }}>
+
+                                    <span>Tidak Sehat</span>
+                                </label>
+
+                            </div>
+                        </div>
+
+                        {{-- Nama Pembesuk --}}
+                        <div>
+                            <label class="block font-medium text-sm text-gray-800 mb-1">
+                                Nama Lengkap Pembesuk
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <input type="text" name="nama_pembesuk" value="{{ old('nama_pembesuk') }}"
+                                required
+                                class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#022D57] focus:border-[#022D57]">
+                        </div>
+
+                        {{-- Alamat --}}
+                        <div>
+                            <label class="block font-medium text-sm text-gray-800 mb-1">
+                                Alamat Pembesuk
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <textarea name="alamat_pembesuk" rows="3" required
+                                class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#022D57] focus:border-[#022D57]">{{ old('alamat_pembesuk') }}</textarea>
+                        </div>
+
+                        {{-- Nomor HP --}}
+                        <div>
+                            <label class="block font-medium text-sm text-gray-800 mb-1">
+                                No HP (WA)
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <input type="text" name="no_hp" value="{{ old('no_hp') }}" required
+                                class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#022D57] focus:border-[#022D57]">
+                        </div>
+
+                        {{-- Hubungan --}}
+                        <div>
+                            <label class="block font-medium text-sm text-gray-800 mb-1">
+                                Hubungan
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <select name="hubungan" required
+                                class="w-full border border-gray-300 rounded-md p-2 focus:ring-[#022D57] focus:border-[#022D57]">
+
+                                <option value="">-- Pilih Hubungan --</option>
+
+                                <option value="Orang Tua"
+                                    {{ old('hubungan') == 'Orang Tua' ? 'selected' : '' }}>
+                                    Orang Tua
+                                </option>
+
+                                <option value="Pasangan"
+                                    {{ old('hubungan') == 'Pasangan' ? 'selected' : '' }}>
+                                    Pasangan
+                                </option>
+
+                                <option value="Saudara"
+                                    {{ old('hubungan') == 'Saudara' ? 'selected' : '' }}>
+                                    Saudara
+                                </option>
+
+                                <option value="Kerabat"
+                                    {{ old('hubungan') == 'Kerabat' ? 'selected' : '' }}>
+                                    Kerabat
+                                </option>
+
+                                <option value="Lainnya"
+                                    {{ old('hubungan') == 'Lainnya' ? 'selected' : '' }}>
+                                    Lainnya
+                                </option>
+
+                            </select>
+                        </div>
+
+                        {{-- Upload Identitas --}}
+                        <div>
+                            <label class="block font-medium text-sm text-gray-800 mb-1">
+                                Foto KTP / SIM / PASPOR
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <input type="file" name="foto_identitas"
+                                class="w-full border border-gray-300 rounded-md p-2">
+
+                            <p class="text-xs text-gray-500 mt-1">
+                                Format: <b>JPG, JPEG, PNG</b> • Maksimal: <b>2 MB</b>
+                            </p>
+
+                            @error('foto_identitas')
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Barang Bawaan --}}
+                        <div>
+                            <label class="block font-medium text-sm text-gray-800 mb-2">
+                                Barang yang Dibawa untuk Tahanan
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <div class="space-y-2">
+
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="barang[]" value="Makanan">
+                                    <span>Makanan</span>
+                                </label>
+
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="barang[]" value="Pakaian">
+                                    <span>Pakaian</span>
+                                </label>
+
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="barang[]" value="Obat">
+                                    <span>Obat</span>
+                                </label>
+
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="barang[]" value="Lainnya">
+                                    <span>Lainnya</span>
+                                </label>
+
+                            </div>
+
+                            @error('barang')
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Submit --}}
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                class="bg-[#022D57] hover:bg-[#034077] transition text-white px-6 py-2 rounded-md">
+                                Kirim
+                            </button>
+                        </div>
+
+                    </div>
+
+                </form>
+
             </div>
 
-            {{-- Nama Pembesuk --}}
-            <div class="mb-4">
-                <label class="block font-medium text-sm text-gray-800 mb-1">Nama Lengkap Pembesuk<span class="text-red-500">*</span></label>
-                <input type="text" name="nama_pembesuk" value="{{ old('nama_pembesuk') }}" required
-                    class="w-full border border-gray-300 rounded-md p-2">
-            </div>
-           
-                {{-- Alamat Pembesuk Tahanan --}}
-                <div class="mb-4">
-                    <label class="block font-medium text-sm text-gray-800 mb-1">Alamat Pembesuk<span class="text-red-500">*</span></label>
-                    <input type="text" name="alamat_pembesuk" value="{{ old('alamat_pembesuk') }}"
-                        required class="w-full border border-gray-300 rounded-md p-2">
-                </div>
 
-                {{-- Nomor HP/WA Pembesuk --}}
-                <div class="mb-4">
-                    <label class="block font-medium text-sm text-gray-800 mb-1">No HP (WA)<span class="text-red-500">*</span></label>
-                    <input type="text" name="no_hp" value="{{ old('no_hp') }}" required
-                        class="w-full border border-gray-300 rounded-md p-2">
-                </div>
+        </div>
+        {{-- SCRIPT CEK TAHANAN --}}
+        <script>
+            function cekTahanan() {
 
-                {{-- Hubungan dengan Tahanan --}}
-                <div class="mb-4">
-                    <label class="block font-medium text-sm text-gray-800 mb-1">Hubungan<span class="text-red-500">*</span></label> 
-                    <select name="hubungan" required class="w-full border border-gray-300 rounded-md p-2">
+                let nomor = document.getElementById('nomorTahanan').value;
 
-                        <option value="">-- Pilih Hubungan --</option>
-                        <option value="Orang Tua"
-                            {{ old('hubungan') == 'Orang Tua' ? 'selected' : '' }}>
-                            Orang Tua</option>
-                        <option value="Pasangan"
-                            {{ old('hubungan') == 'Pasangan' ? 'selected' : '' }}>
-                            Pasangan</option>
-                        <option value="Saudara"
-                            {{ old('hubungan') == 'Saudara' ? 'selected' : '' }}>
-                            Saudara</option>
-                        <option value="Kerabat"
-                            {{ old('hubungan') == 'Kerabat' ? 'selected' : '' }}>
-                            Kerabat</option>
-                        <option value="Lainnya"
-                            {{ old('hubungan') == 'Lainnya' ? 'selected' : '' }}>
-                            Lainnya</option>
-                    </select>
-                </div>
+                fetch(`/cek-nomor-tahanan?nomor_tahanan=${nomor}`)
+                    .then(response => response.json())
+                    .then(data => {
 
-                {{-- Identitas/Foto KTP/SIM/PASPOR Pembesuk --}}
-                <div class="mb-4">
-                    <label class="block font-medium text-sm text-gray-800 mb-1">
-                        Foto KTP/SIM/PASPOR<span class="text-red-500">*</span>
-                    </label>
+                        // jika data ditemukan
+                        if (data && data.id) {
 
-                    <input type="file" name="foto_identitas" class="w-full border border-gray-300 rounded-md p-2">
+                            // tampilkan hasil
+                            document.getElementById('hasilTahanan').classList.remove('hidden');
 
-                    <p class="text-xs text-gray-500 mt-1">
-                        Format: <b>JPG, JPEG, PNG</b> • Maksimal: <b>2 MB</b>
-                    </p>
+                            // tampilkan form pendaftaran
+                            document.getElementById('cardPendaftaran').classList.remove('hidden');
 
-                    @error('foto_identitas')
-                        <p class="text-red-600 text-sm mt-1">
-                            {{ $message }}
-                        </p>
-                    @enderror
-                </div>
+                            // sembunyikan notif
+                            document.getElementById('notFound').classList.add('hidden');
 
-                {{-- Barang yang dibawa untuk tahanan yang dibesuk --}}
-                <div class="mb-4">
-                    <label class="block font-medium text-sm text-gray-800 mb-2">
-                        Barang yang dibawa untuk tahanan yang dibesuk<span class="text-red-500">*</span>
-                    </label>
-                    <div class="space-y-2">
-                        <label class="flex items-center gap-2">
-                            <input type="checkbox" name="barang[]" value="Makanan"
-                                {{ is_array(old('barang')) && in_array('Makanan', old('barang')) ? 'checked' : '' }}>
-                            Makanan
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="checkbox" name="barang[]" value="Pakaian"
-                                {{ is_array(old('barang')) && in_array('Pakaian', old('barang')) ? 'checked' : '' }}>
-                            Pakaian
-                        </label>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="checkbox" name="barang[]" value="Obat"
-                                {{ is_array(old('barang')) && in_array('Obat', old('barang')) ? 'checked' : '' }}>
-                            Obat
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="checkbox" name="barang[]" value="Lainnya"
-                                {{ is_array(old('barang')) && in_array('Lainnya', old('barang')) ? 'checked' : '' }}>
-                            Lainnya
-                        </label>
-                          @error('barang')
-                        <p class="text-red-600 text-sm mt-1">
-                            {{ $message }}
-                        </p>
-                    @enderror
-                    </div>
+                            // isi data
+                            document.getElementById('namaTahanan').value = data.nama_tahanan;
+                            document.getElementById('nomorTahananHasil').value = data.nomor_tahanan;
+                            document.getElementById('wargaNegara').value = data.warga_negara;
 
-                    {{-- SUBMIT --}}
-                    <div class="flex justify-end mt-6">
-                        <button type="submit" class="bg-[#022D57] text-white px-6 py-2 rounded-md">
-                            Kirim
-                        </button>
-                    </div>
-                    </div>
-                </div>
+                            // kirim tahanan_id ke database
+                            document.getElementById('tahanan_id').value = data.id;
 
-    </form>{{-- SCRIPT CEK TAHANAN --}}
-<script>
-function cekTahanan() {
+                        } else {
 
-    let nomor = document.getElementById('nomorTahanan').value;
+                            // sembunyikan hasil
+                            document.getElementById('hasilTahanan').classList.add('hidden');
 
-    fetch(`/cek-nomor-tahanan?nomor_tahanan=${nomor}`)
-        .then(response => response.json())
-        .then(data => {
+                            // sembunyikan form
+                            document.getElementById('cardPendaftaran').classList.add('hidden');
 
-            // jika data ditemukan
-            if (data && data.id) {
+                            // tampilkan notif
+                            document.getElementById('notFound').classList.remove('hidden');
+                        }
 
-                // tampilkan hasil
-                document.getElementById('hasilTahanan').classList.remove('hidden');
+                    })
+                    .catch(error => {
 
-                // tampilkan form pendaftaran
-                document.getElementById('cardPendaftaran').classList.remove('hidden');
+                        console.log(error);
 
-                // sembunyikan notif
-                document.getElementById('notFound').classList.add('hidden');
+                        // sembunyikan hasil
+                        document.getElementById('hasilTahanan').classList.add('hidden');
 
-                // isi data
-                document.getElementById('namaTahanan').value = data.nama_tahanan;
-                document.getElementById('nomorTahananHasil').value = data.nomor_tahanan;
-                document.getElementById('wargaNegara').value = data.warga_negara;
+                        // sembunyikan form
+                        document.getElementById('cardPendaftaran').classList.add('hidden');
 
-                // kirim tahanan_id ke database
-                document.getElementById('tahanan_id').value = data.id;
-
-            } else {
-
-                // sembunyikan hasil
-                document.getElementById('hasilTahanan').classList.add('hidden');
-
-                // sembunyikan form
-                document.getElementById('cardPendaftaran').classList.add('hidden');
-
-                // tampilkan notif
-                document.getElementById('notFound').classList.remove('hidden');
+                        // tampilkan notif
+                        document.getElementById('notFound').classList.remove('hidden');
+                    });
             }
 
-        })
-        .catch(error => {
+        </script>
+        {{-- Library --}}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-            console.log(error);
+        <script>
+            $(document).ready(function () { // memastikan script jalan setelah halaman selesai load
 
-            // sembunyikan hasil
-            document.getElementById('hasilTahanan').classList.add('hidden');
+                // live search input tahanan
+                $('#tahanan_input').on('keyup', function () {
 
-            // sembunyikan form
-            document.getElementById('cardPendaftaran').classList.add('hidden');
+                    let query = $(this).val(); //ambil nilaiinput yg diketik user
 
-            // tampilkan notif
-            document.getElementById('notFound').classList.remove('hidden');
-        });
-}
-</script>
-    {{-- Library --}}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    // haya jalan jikaminimal 1 huurf
+                    if (query.length >= 1) {
 
-    <script>
-        $(document).ready(function () { // memastikan script jalan setelah halaman selesai load
+                        $.ajax({
+                            url: "{{ route('user.tahanan.search') }}", //route laravel untuk search data tahanan
+                            type: "GET",
+                            data: {
+                                q: query // kirim keyword ke backend
+                            },
 
-            // live search input tahanan
-            $('#tahanan_input').on('keyup', function () {
+                            success: function (data) {
 
-                let query = $(this).val(); //ambil nilaiinput yg diketik user
+                                let html = '';
 
-                // haya jalan jikaminimal 1 huurf
-                if (query.length >= 1) {
+                                // jika data ditemukan
+                                if (data.length > 0) {
 
-                    $.ajax({
-                        url: "{{ route('user.tahanan.search') }}", //route laravel untuk search data tahanan
-                        type: "GET",
-                        data: {
-                            q: query // kirim keyword ke backend
-                        },
+                                    data.forEach(function (item) {
 
-                        success: function (data) {
-
-                            let html = '';
-
-                            // jika data ditemukan
-                            if (data.length > 0) {
-
-                                data.forEach(function (item) {
-
-                                    html += `
+                                        html += `
                                 <div class="p-2 cursor-pointer hover:bg-gray-100"
                                      data-id="${item.id}"
                                      data-nama="${item.nama_tahanan}">
@@ -445,55 +491,118 @@ function cekTahanan() {
                                 </div>
                             `;
 
-                                });
+                                    });
 
-                                $('#tahanan_list')
-                                    .html(html) //masukkan hasil ke dropdown
-                                    .show(); //tampilkan dropdown
+                                    $('#tahanan_list')
+                                        .html(html) //masukkan hasil ke dropdown
+                                        .show(); //tampilkan dropdown
 
-                            } else {
-                                //jika tidak ada data                
-                                $('#tahanan_list').html(`
+                                } else {
+                                    //jika tidak ada data                
+                                    $('#tahanan_list').html(`
                             <div class="p-2 text-gray-500">
                                 Tidak ditemukan
                             </div>
                         `).show();
 
-                            }
+                                }
 
-                        }
-                    });
+                            }
+                        });
+
+                    } else {
+                        //jika input kosong, sembunyikan dropdown
+                        $('#tahanan_list').hide();
+
+                    }
+
+                });
+
+
+                // Ketika user klik salah satu hasil
+                $(document).on('click', '#tahanan_list div', function () {
+
+                    let nama = $(this).data('nama'); //ambil nama dari data-attribute
+                    let id = $(this).data('id'); //ambil id dari data-attribute
+
+                    $('#tahanan_input').val(nama); // isi input dgn nama tahanan
+                    $('#tahanan_id').val(id); // simpan id di hidden input
+
+                    $('#tahanan_list').hide(); // sembunyikan dropdown
+
+                });
+
+
+                // Jika klik di luar list
+                $(document).click(function (e) {
+
+                    if (!$(e.target).closest('#tahanan_input, #tahanan_list')
+                        .length) { //jika klik bukan diinput/list
+
+                        $('#tahanan_list').hide(); //sembunyikan dropdown
+
+                    }
+
+                });
+
+            });
+
+        </script>
+
+        @if($errors->any())
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: 'Gagal menambahkan data, silahkan cek kembali inputannya.',
+                });
+
+            </script>
+        @endif
+</div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const tabButtons = document.querySelectorAll('.tab-btn');
+
+        const permohonan = document.getElementById('permohonan');
+        const pembesuk = document.getElementById('pembesuk');
+
+        tabButtons.forEach(button => {
+
+            button.addEventListener('click', function () {
+
+                const target = this.dataset.tab;
+
+                tabButtons.forEach(btn => {
+
+                    btn.classList.remove(
+                        'border-b-2',
+                        'border-[#022D57]',
+                        'text-[#022D57]'
+                    );
+
+                    btn.classList.add('text-gray-500');
+                });
+
+                this.classList.add(
+                    'border-b-2',
+                    'border-[#022D57]',
+                    'text-[#022D57]'
+                );
+
+                this.classList.remove('text-gray-500');
+
+                if (target === 'permohonan') {
+
+                    permohonan.style.display = 'block';
+                    pembesuk.style.display = 'none';
 
                 } else {
-                    //jika input kosong, sembunyikan dropdown
-                    $('#tahanan_list').hide();
 
-                }
-
-            });
-
-
-            // Ketika user klik salah satu hasil
-            $(document).on('click', '#tahanan_list div', function () {
-
-                let nama = $(this).data('nama'); //ambil nama dari data-attribute
-                let id = $(this).data('id'); //ambil id dari data-attribute
-
-                $('#tahanan_input').val(nama); // isi input dgn nama tahanan
-                $('#tahanan_id').val(id); // simpan id di hidden input
-
-                $('#tahanan_list').hide(); // sembunyikan dropdown
-
-            });
-
-
-            // Jika klik di luar list
-            $(document).click(function (e) {
-
-                if (!$(e.target).closest('#tahanan_input, #tahanan_list')
-                    .length) { //jika klik bukan diinput/list
-
-                    $('#tahanan_list').hide(); //sembunyikan dropdown
+                    permohonan.style.display = 'none';
+                    pembesuk.style.display = 'block';
 
                 }
 
@@ -501,18 +610,7 @@ function cekTahanan() {
 
         });
 
-    </script>
+    });
 
-    @if($errors->any())
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal!',
-                text: 'Gagal menambahkan data, silahkan cek kembali inputannya.',
-            });
-
-        </script>
-    @endif
-</div>
-</div>
+</script>
 @endsection
