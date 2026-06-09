@@ -140,7 +140,7 @@
         w-full md:w-3/4 lg:w-3/4 mx-auto">
 
                 <h2 class="text-xl font-bold text-[#022D57] mb-4">
-                    Data Permohonan 
+                    Data Permohonan
                 </h2>
 
                 <form action="{{ route('besuk.store') }}" method="POST" enctype="multipart/form-data">
